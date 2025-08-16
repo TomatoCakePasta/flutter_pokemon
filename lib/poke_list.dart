@@ -8,7 +8,7 @@ class PokeList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      itemCount: 5,
+      itemCount: 20,
       itemBuilder: (BuildContext context, int index) {
         return PokeListItem(index: index);
       },
