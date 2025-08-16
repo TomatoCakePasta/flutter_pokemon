@@ -27,7 +27,7 @@ class PokeListItem extends StatelessWidget {
           ),
         ),
         title: Text(
-          poke!.name,
+          '${poke!.name.substring(0, 1).toUpperCase()}${poke!.name.substring(1)}',
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
