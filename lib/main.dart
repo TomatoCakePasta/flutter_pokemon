@@ -1,14 +1,23 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './poke_detail.dart';
 import './poke_list_item.dart';
 import './poke_list.dart';
 import './settings.dart';
-import './util/theme_mode.dart';
+import './utils/theme_mode.dart';
+import './models/theme_model.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final SharedPreferences pref = await SharedPreferences.getInstance();
+  final themeModelNotifier = ThemeModeNotifier(pref);
+  runApp(ChangeNotifierProvider(
+    create: (context) => themeModelNotifier,
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -19,22 +28,24 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ThemeMode mode = ThemeMode.system;
+  // ThemeMode mode = ThemeMode.system;
 
-  @override
-  void initState() {
-    super.initState();
-    loadThemeMode().then((val) => setState(() => mode = val));
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   loadThemeMode().then((val) => setState(() => mode = val));
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Pokemon Book',
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      themeMode: mode,
-      home: const TopPage(), // const MyHomePage(title: 'Pokemon Book'),
+    return Consumer<ThemeModeNotifier>(
+      builder: (context, mode, child) => MaterialApp(
+        title: "Pokemon Flutter",
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        themeMode: mode.mode,
+        home: const TopPage(),
+      ),
     );
   }
 }
