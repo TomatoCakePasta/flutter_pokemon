@@ -9,12 +9,30 @@ class PokeListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Image.network(
-        url,
-        height: 50,
-        width: 50,
+      leading: Container(
+        width: 80,
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 255, 244, 146),
+          borderRadius: BorderRadius.circular(10),
+          image: DecorationImage(
+            fit: BoxFit.fitWidth,
+            image: NetworkImage(
+              url,
+            ),
+          ),
+        ),
       ),
-      title: const Text('pikachu'),
+      title: const Text(
+        'pikachu',
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      subtitle: const Text(
+        "electric",
+      ),
+      trailing: const Icon(Icons.navigate_next),
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
