@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const int pokeMaxId = 30;
+const int pokeMaxId = 100;
 const String pokeApiRoute = 'https://pokeapi.co/api/v2/';
 const Map<String, Color> pokeTypeColors = {
   "normal": Color(0xFFA8A77A),
