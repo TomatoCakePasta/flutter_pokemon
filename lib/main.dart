@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/models/favorite.dart';
@@ -11,9 +12,17 @@ import './poke_list.dart';
 import './settings.dart';
 import './utils/theme_mode.dart';
 import './models/theme_model.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqflite/sqflite.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // テスト環境の場合
+  // if (!Platform.isAndroid && !Platform.isIOS) {
+  //   sqfliteFfiInit();
+  //   databaseFactory = databaseFactoryFfi;
+  // }
+
   final SharedPreferences pref = await SharedPreferences.getInstance();
   final themeModelNotifier = ThemeModeNotifier(pref);
   final pokemonsNotifier = PokemonsNotifier();

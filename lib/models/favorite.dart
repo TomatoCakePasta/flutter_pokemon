@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pokemon/db/favorites.dart';
 
 class FavoriteNotifier extends ChangeNotifier {
   final List<Favorite> _favs = [];
+
+  FavoriteNotifier() {
+    syncDb();
+  }
+
+  void syncDb() async {
+    FavoritesDb.read().then(
+      (val) => _favs
+        ..clear()
+        ..addAll(val),
+      );
+      notifyListeners();
+  }
 
   List<Favorite> get favs => _favs;
 
@@ -21,14 +35,14 @@ class FavoriteNotifier extends ChangeNotifier {
     return true;
   }
 
-  void add(Favorite fav) {
-    favs.add(fav);
-    notifyListeners();
+  void add(Favorite fav) async{
+    await FavoritesDb.create(fav);
+    syncDb();
   }
 
-  void delete(int id) {
-    favs.removeWhere((fav) => fav.pokeId == id);
-    notifyListeners();
+  void delete(int id) async {
+    await FavoritesDb.delete(id);
+    syncDb();
   }
 }
 
@@ -38,4 +52,10 @@ class Favorite {
   Favorite({
     required this.pokeId,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      "id": pokeId,
+    };
+  }
 }
