@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_pokemon/models/favorite.dart';
 import 'package:flutter_pokemon/models/pokemon.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +17,8 @@ void main() async {
   final SharedPreferences pref = await SharedPreferences.getInstance();
   final themeModelNotifier = ThemeModeNotifier(pref);
   final pokemonsNotifier = PokemonsNotifier();
+  final favoriteNotifier = FavoriteNotifier();
+
   runApp(
     MultiProvider(
       providers: [
@@ -23,8 +26,11 @@ void main() async {
           create:(context) => themeModelNotifier,
         ),
         ChangeNotifierProvider<PokemonsNotifier>(
-          create: (context) => pokemonsNotifier,  
-        )
+          create: (context) => pokemonsNotifier,
+        ),
+        ChangeNotifierProvider<FavoriteNotifier>(
+          create: (context) => favoriteNotifier,
+        ),
       ],
       child: const MyApp(),
     ),
@@ -60,7 +66,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  
+
 }
 
 class TopPage extends StatefulWidget {
