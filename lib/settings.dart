@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './util/theme_mode.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -9,6 +10,12 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   ThemeMode _themeMode = ThemeMode.system;
+
+  @override
+  void initState() {
+    super.initState();
+    loadThemeMode().then((val) => setState(() => _themeMode = val));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +37,7 @@ class _SettingsState extends State<Settings> {
               ),
             );
             setState(() => _themeMode = ret!);
+            await saveThemeMode(_themeMode);
           },
         ),
         SwitchListTile(

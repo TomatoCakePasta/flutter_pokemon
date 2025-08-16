@@ -5,17 +5,30 @@ import './poke_detail.dart';
 import './poke_list_item.dart';
 import './poke_list.dart';
 import './settings.dart';
+import './util/theme_mode.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  ThemeMode mode = ThemeMode.system;
+
+  @override
+  void initState() {
+    super.initState();
+    loadThemeMode().then((val) => setState(() => mode = val));
+  }
+
+  @override
   Widget build(BuildContext context) {
-    ThemeMode mode = ThemeMode.system;
     return MaterialApp(
       title: 'Pokemon Book',
       theme: ThemeData.light(),
